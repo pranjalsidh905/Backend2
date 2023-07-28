@@ -26,7 +26,7 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
   console.log(">>>>>>>>>>>>>findUser>>>>>>>>>>>>>>", findUser);
   if (findUser && (await findUser.isPasswordMatched(password))) {
     const token = generateToken(findUser?._id);
-    console.log(">>>>>>>>>>>>>>>token", token);
+    // console.log(">>>>>>>>>>>>>>>token", token);
     res.json({
       _id: findUser?._id,
       findname: findUser?.firstname,
@@ -74,11 +74,24 @@ const getallUser = asyncHandler(async (req, res) => {
 });
 
 //Get a Single user
+const getaUser = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  // console.log(req.params);
+  // console.log(id);
+  try {
+    const getaUser = await User.findById(id);
+    res.json({ getaUser });
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+//Get a Single user
 const deleteaUser = asyncHandler(async (req, res) => {
-  console.log(req.params);
+  // console.log(req.params);
   const { id } = req.params;
   try {
-    const  deleteaUser = await User.findByIdAndDelete(id);
+    const deleteaUser = await User.findByIdAndDelete(id);
     res.json({ deleteaUser });
   } catch (error) {
     throw new Error(error);
